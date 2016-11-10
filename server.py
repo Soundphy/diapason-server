@@ -87,6 +87,8 @@ def get(note):
     rate = int(request.args.get('rate', 44100))
     duration = float(request.args.get('duration', 2))
     octave = int(request.args.get('octave', 4))
+    sharp = int(request.args.get('sharp', 0))
+    flat = int(request.args.get('flat', 0))
 
     mimetype = 'audio/' + coding_format
 
@@ -94,7 +96,7 @@ def get(note):
         note = note.split('.')[0]
 
     note = note.upper()
-    frequency = note_frequency(note, octave)
+    frequency = note_frequency(note, sharp=sharp, flat=flat, octave=octave)
     note = generate_wav(frequency, duration, rate)
 
     if coding_format != 'wav':
