@@ -115,7 +115,7 @@ def alexa(note):
     Get a note in a convenient format to deal with Alexa.
     """
     coding_format = 'mpeg'
-    rate = 1600
+    rate = 16000
     duration = 5.
     octave = 4
     sharp = 0
