@@ -4,5 +4,6 @@ pycache/
 .tox/
 *.egg-info/
 .coverage
+server.ini
 *.pyc
 *.swp
