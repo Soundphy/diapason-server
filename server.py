@@ -2,6 +2,7 @@
 Diapason RESTful API.
 """
 import inspect
+import configparser
 from io import BytesIO
 
 from flask import Flask
@@ -103,9 +104,34 @@ def get(note):
         note = convert_wav(note, coding_format=coding_format,
                            **request.args.to_dict())
 
-    # valid MP3 file (MPEG version 2).
-    # 48 kbps
-    # 16000 Hz.
+    return send_file(note, mimetype=mimetype,
+                     # For developing purposes only
+                     add_etags=False, cache_timeout=0)
+
+
+@app.route('/v0/alexa/<note>')
+def alexa(note):
+    """
+    Get a note in a convenient format to deal with Alexa.
+    """
+    coding_format = 'mpeg'
+    rate = 1600
+    duration = 5.
+    octave = 4
+    sharp = 0
+    flat = 0
+
+    mimetype = 'audio/' + coding_format
+
+    if '.' in note:
+        note = note.split('.')[0]
+
+    note = note.upper()
+    frequency = note_frequency(note, sharp=sharp, flat=flat, octave=octave)
+    note = generate_wav(frequency, duration, rate)
+
+    note = convert_wav(note, coding_format=coding_format,
+                       **request.args.to_dict())
 
     return send_file(note, mimetype=mimetype,
                      # For developing purposes only
