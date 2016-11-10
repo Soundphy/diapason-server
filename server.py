@@ -120,6 +120,7 @@ def alexa(note):
     octave = 4
     sharp = 0
     flat = 0
+    extra = {'bitrate': '48k'}
 
     mimetype = 'audio/' + coding_format
 
@@ -130,8 +131,7 @@ def alexa(note):
     frequency = note_frequency(note, sharp=sharp, flat=flat, octave=octave)
     note = generate_wav(frequency, duration, rate)
 
-    note = convert_wav(note, coding_format=coding_format,
-                       **request.args.to_dict())
+    note = convert_wav(note, coding_format=coding_format, **extra)
 
     return send_file(note, mimetype=mimetype,
                      # For developing purposes only
