@@ -133,9 +133,7 @@ def alexa(note):
 
     note = convert_wav(note, coding_format=coding_format, **extra)
 
-    return send_file(note, mimetype=mimetype,
-                     # For developing purposes only
-                     add_etags=False, cache_timeout=0)
+    return send_file(note, mimetype=mimetype)
 
 
 @app.route('/<path:path>', methods=['GET', 'POST'])
